@@ -24,7 +24,7 @@
     Provides build services for JMRI libraries and applications
     </description>
 
-    <property name="jmri.copyright.year" value="1997-2017"/>
+    <property name="jmri.copyright.year" value="1997-2018"/>
 
     <property environment="env"/>
 
@@ -221,6 +221,7 @@
         <pathelement location="${libdir}/usb-api-1.0.2.jar"/>
         <pathelement location="${libdir}/usb4java-1.2.0.jar"/>
         <pathelement location="${libdir}/usb4java-javax-1.2.0.jar"/>
+        <pathelement location="${libdir}/hid4java-0.5.0.jar"/>
     </path>
     <pathconvert property="runtime.class.jars" refid="runtime.class.path"/>
 
@@ -970,15 +971,6 @@
         <antcall target="-run-jmri-application">
             <param name="application.classname" value="apps.InstallTest.InstallTest"/>
             <param name="antargline" value="InstallTestConfig2.xml"/>
-        </antcall>
-    </target>
-
-    <target name="jmridemo"
-            depends="debug"
-            description="build and run build and run JmriDemo app">
-        <antcall target="-run-jmri-application">
-            <param name="application.classname" value="apps.JmriDemo.JMRIdemo"/>
-            <param name="antargline" value="JmriDemoConfig2.xml"/>
         </antcall>
     </target>
 
@@ -2046,11 +2038,13 @@
             <fileset dir="${libdir}/windows"/>
         </copy>
         <mkdir dir="${dist.release}"/>
+        <!-- do not rebuild LaunchJMRI (see https://github.com/JMRI/JMRI/pull/3959)
         <exec executable="${nsis.home}makensis"
               dir="${dist.windows}/JMRI"
               failonerror="true">
             <arg line="-V2 LaunchJMRI.nsi"/>
         </exec>
+        -->
         <exec executable="${nsis.home}makensis"
               dir="${dist.windows}/JMRI"
               failonerror="true">
